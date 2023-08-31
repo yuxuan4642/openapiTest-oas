@@ -1,0 +1,51 @@
+openapi: 3.1.0
+info:
+  title: imVision OpenAPI Demo
+  description: |
+    Just first try for the openapi document
+  version: 1.0.0
+servers:
+  - url: http://10.96.30.123/imvisionapi/api
+    description: Development Server
+security:
+  - basicAuth: []
+components:
+  schemas:
+    ConnectionModel:
+      type: array
+      properties:
+        fromPortId:
+          type: integer
+          format: int32
+        toPortId:
+          type: integer
+          format: int32
+        connectionType:
+          type: string
+  securitySchemes: 
+    basicAuth:
+      type: http
+      scheme: basic
+paths:
+  /connections?portId={portId}:
+    get:
+      summary: Get connections API
+      description: Get the connection information through a port Id
+      parameters:
+        - name: portId
+          in: path
+          required: true
+          description: Any port id with connection
+          schema:
+            type: integer
+            minimum: 100
+            maximum: 2147483647
+            description: |
+              Get the Connection based on the PortId. 
+      responses:
+        '200':
+          description: The port connection info.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionModel'
